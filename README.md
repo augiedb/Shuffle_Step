@@ -1,10 +1,9 @@
-<<<<<<< HEAD
 # ShuffleStep
 
-** TODO: Add description **
-=======
+============
 Shuffle_Step
 ============
 
-An ElixirDose.com code sample to determine the shuffle function's randomness
->>>>>>> 0ff99df649fa4429568a63d611bba5b14d8733c5
+This program is being written for an upcoming [ElixirDose.com](http://elixirdose.com) article.
+
+In it, we will seek to discover if the `shuffle` function mixes up an array better if it's run more than once.
