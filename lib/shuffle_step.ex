@@ -18,16 +18,15 @@ defmodule Deck do
   def init_points(points) when points == 'Ace', do: 1
   def init_points(_), do: 10 
 
-  def shuffle(deck) do
-    deck |> Enum.Shuffle
-  end
-
   def is_a_match(card1, card2) do
     results = (card1.suit == card2.suit) or (card1.rank == card2.rank)
-    results && 1 || 0
+    if results, do: 1, else: 0
   end
 
+
+
 # Alternate Ternary Operators
+# Credit: https://groups.google.com/forum/#!topic/elixir-lang-talk/2AUPMxbS1Vk
 #    my_string = if condition, do: "value 1", else: "value 2"    <-- option #1 in Elixir
 #    my_string = condition && "value 1" || "value 2"    <-- option #2 in Elixir
 
@@ -42,34 +41,45 @@ defmodule ShuffleStep do
     ShuffleStep.Supervisor.start_link
   end
 
-  def run do
-    deck = Deck.create()
-    [ first_card | rest ] = deck
-    total_matches = count_matches(first_card, rest, 0)
-    IO.puts "Total matches in an unshuffled Deck: #{total_matches}"
-
-    deck1 = Deck.create() |> Enum.shuffle 
-    [ first_card | rest ] = deck1
-    total_matches = count_matches(first_card, rest, 0)
-    IO.puts "Total matches in a shuffled Deck: #{total_matches}"
-
-    deck2 = Deck.create() |> Enum.shuffle 
-    [ first_card | rest ] = deck2
-    total_matches = count_matches(first_card, rest, 0)
-    IO.puts "Total matches in a shuffled Deck: #{total_matches}"
-
-
-
-
-
-
+  def run(shuffle_occurences // 1) do
+    test_frequency = 1000
+    total_matches = shuffle_test(shuffle_occurences, test_frequency, 0)
+    average = total_matches / test_frequency
+    IO.puts "Total matches acress #{test_frequency} tests: #{total_matches}"
+    IO.puts "For an average match of #{average} per shuffle try."
   end
 
-  def count_matches(_card, [_head|[]], acc) do
+
+## Shuffle_Test---------------------------
+  def shuffle_test(shuffle_total, 0, acc) do
     acc
   end
 
-  def count_matches(card1, [card2 |tail], acc) do
+  def shuffle_test(shuffle_total, frequency, acc) do
+    deck = Deck.create()
+    shuffled_deck = multi_shuffle(deck, shuffle_total)
+    [ first_card | rest ] = shuffled_deck
+    total_matches = count_matches(first_card, rest, 0)
+    shuffle_test(shuffle_total, frequency-1, acc + total_matches)    
+  end
+
+
+  ## Shuffle Multiple Times---------------
+  def multi_shuffle(deck, 0) do
+    deck
+  end
+
+  def multi_shuffle(deck, acc) do
+    multi_shuffle( Enum.shuffle(deck), acc-1 ) 
+  end
+
+
+  ## Count Matches in a Deck--------------
+  def count_matches(card1, [ card2 | [] ], acc) do
+    acc + Deck.is_a_match(card1, card2)
+  end
+
+  def count_matches(card1, [ card2 | tail ], acc) do
     count_matches(card2, tail, acc + Deck.is_a_match(card1, card2))
   end
 
