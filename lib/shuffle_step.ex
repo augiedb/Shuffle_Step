@@ -19,12 +19,17 @@ defmodule Deck do
   def init_points(_), do: 10 
 
   def shuffle(deck) do
-    deck |> Enum.shuffle
+    deck |> Enum.Shuffle
   end
 
   def is_a_match(card1, card2) do
-    (card1.suit == card2.suit) or (card1.rank == card2.rank)
+    results = (card1.suit == card2.suit) or (card1.rank == card2.rank)
+    results && 1 || 0
   end
+
+# Alternate Ternary Operators
+#    my_string = if condition, do: "value 1", else: "value 2"    <-- option #1 in Elixir
+#    my_string = condition && "value 1" || "value 2"    <-- option #2 in Elixir
 
 end
 
@@ -39,18 +44,33 @@ defmodule ShuffleStep do
 
   def run do
     deck = Deck.create()
-    [first_card | rest ] = deck
+    [ first_card | rest ] = deck
     total_matches = count_matches(first_card, rest, 0)
-    IO.puts "Total matches: #{total_matches}"
+    IO.puts "Total matches in an unshuffled Deck: #{total_matches}"
+
+    deck1 = Deck.create() |> Enum.shuffle 
+    [ first_card | rest ] = deck1
+    total_matches = count_matches(first_card, rest, 0)
+    IO.puts "Total matches in a shuffled Deck: #{total_matches}"
+
+    deck2 = Deck.create() |> Enum.shuffle 
+    [ first_card | rest ] = deck2
+    total_matches = count_matches(first_card, rest, 0)
+    IO.puts "Total matches in a shuffled Deck: #{total_matches}"
+
+
+
+
+
+
   end
 
-  def count_matches(_card, [head|[]], acc) do
+  def count_matches(_card, [_head|[]], acc) do
     acc
   end
 
-  def count_matches(card1, [head|tail], acc) do
-    [card2, rest]  = head
-    count_matches(card2, rest, acc + Deck.is_a_match(card1, card2))
+  def count_matches(card1, [card2 |tail], acc) do
+    count_matches(card2, tail, acc + Deck.is_a_match(card1, card2))
   end
 
 
