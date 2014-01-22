@@ -6,6 +6,7 @@ defrecord Card, suit: nil, rank: nil, points: nil do
 
 end
 
+
 defmodule Deck do
 
   def create do
@@ -23,14 +24,8 @@ defmodule Deck do
     if results, do: 1, else: 0
   end
 
-
-
-# Alternate Ternary Operators
-# Credit: https://groups.google.com/forum/#!topic/elixir-lang-talk/2AUPMxbS1Vk
-#    my_string = if condition, do: "value 1", else: "value 2"    <-- option #1 in Elixir
-#    my_string = condition && "value 1" || "value 2"    <-- option #2 in Elixir
-
 end
+
 
 defmodule ShuffleStep do
   use Application.Behaviour
@@ -51,7 +46,7 @@ defmodule ShuffleStep do
 
 
 ## Shuffle_Test---------------------------
-  def shuffle_test(shuffle_total, 0, acc) do
+  def shuffle_test(_, 0, acc) do
     acc
   end
 
@@ -64,7 +59,7 @@ defmodule ShuffleStep do
   end
 
 
-  ## Shuffle Multiple Times---------------
+## Shuffle Multiple Times---------------
   def multi_shuffle(deck, 0) do
     deck
   end
@@ -74,7 +69,7 @@ defmodule ShuffleStep do
   end
 
 
-  ## Count Matches in a Deck--------------
+## Count Matches in a Deck--------------
   def count_matches(card1, [ card2 | [] ], acc) do
     acc + Deck.is_a_match(card1, card2)
   end
@@ -82,7 +77,5 @@ defmodule ShuffleStep do
   def count_matches(card1, [ card2 | tail ], acc) do
     count_matches(card2, tail, acc + Deck.is_a_match(card1, card2))
   end
-
-
 
 end
