@@ -15,7 +15,7 @@ defmodule Deck do
     do: Card.new rank: rank, suit: suit, points: init_points(rank)
   end
 
-  def init_points(points) when points in 2..10, do: points
+  def init_points(points) when is_number(points), do: points
   def init_points(points) when points == 'Ace', do: 1
   def init_points(_), do: 10 
 
