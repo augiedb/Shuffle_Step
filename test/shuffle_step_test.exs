@@ -10,4 +10,5 @@ defmodule ShuffleStepTest do
     assert(Deck.is_a_match(c1, match) == 1)
     assert(Deck.is_a_match(c2, match) == 1)
   end
+
 end
