@@ -9,3 +9,8 @@ There's a mix dependence in here for Elixir 12.3-dev.  You might want to change 
 UPDATE: January 21, 2014  This code is generally complete.  I run it by jumping into `iex` and running ShuffleStep.run(x), where x is the number of shuffles you want to give the deck.
 
 TO DO: My biggest hope is to turn this into a massive computation problem and run it with some parallel processing. Spawn sessions, pass pids, the whole lot.  That's the next step and the next tutorial.  I hope.  Chapter 13 of Dave Thomas' book is still bending my mind into the proper shape for that.
+
+[This is the final Elixir Dose article.](http://elixirdose.com/shuffling-the-deck/)
+
+[Here is the multi-process version of this code.](https://github.com/augiedb/Shuffle-Step-Proc)  (Still a work in progress...)
+
